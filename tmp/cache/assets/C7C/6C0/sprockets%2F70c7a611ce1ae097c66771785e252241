@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.5322337:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%c643f5ea64540d6b9898c98a16b7b71aI"logical_path;
+FI"map_background_v4.png;
+FI"pathname;
+FI"2$root/app/assets/images/map_background_v4.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-08-28T01:21:58+05:30;
+FI"length;
+FI"718824;
+FI"digest;
+F"%ac5bb2fac40426416094fefcc57a4a9fI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

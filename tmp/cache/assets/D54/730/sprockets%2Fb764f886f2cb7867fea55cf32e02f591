@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.5365903:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%3fb31f9e38ae0da9794a67bc2eebc0b4I"logical_path;
+FI"natural_paper.png;
+FI"pathname;
+FI".$root/app/assets/images/natural_paper.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-08-28T01:21:58+05:30;
+FI"length;
+FI"100862;
+FI"digest;
+F"%6ea2da52abb6d8936d2c5bcba33f967aI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

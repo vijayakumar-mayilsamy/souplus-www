@@ -1,0 +1,99 @@
+<% content_for :head do%>
+    <script type="text/javascript">      
+		$(document).ready(function(){
+			var $form = $('#signup-form'),
+				$email = $('#signup-email'),
+				$pwd = $('#signup-pwd'),
+				$fname = $('#signup-fname'),
+				$lname = $('#signup-lname'),
+				$submit = $('#signup-submit'),
+				submit_content = $submit.html();
+			var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			
+			$submit.click(function(e){
+				e.preventDefault();
+				resetMessage();
+				$('.invalid-input').removeClass('invalid-input');
+				if (!emailReg.test($email.val())){
+					errorMessage("Are you sure this is your email?");
+					$email.addClass('invalid-input');
+				} else {
+					
+					$.ajax({
+						url: 
+						API_DOMAIN+'/api/users/signup.json?email='+escape($email.val()) + 
+						'&password='+escape($pwd.val())+ 
+						'&password_confirmation='+escape($pwd.val())+ '&first_name='+escape($fname.val())+ '&last_name='+escape($lname.val()),
+						beforeSend: function(){
+							$submit.loading();
+						},
+						success: function(obj){
+							//alert(obj.status);
+							$submit.empty().unloading();
+							$submit.html(submit_content);
+							 
+							if (obj.status==='success'){															
+								$form.html(obj.message);
+							}else{
+								errorMessage(obj.message);
+							}
+						}
+					})
+				}
+				
+			})
+		});
+	</script>
+<% end %>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#topnav li').removeClass('active');
+});
+</script>
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="span7">
+				<div id="signup-wrapper">
+					<form class="form-horizontal" id="signup-form">
+						<fieldset>
+							<legend>Registration</legend>
+						  <div class="control-group" id="content">
+							<label class="control-label" for="focusedInput">Email</label>
+							<div class="controls">
+							  <input class="focused" id="signup-email" type="text" value="">
+							</div>
+						  </div>
+						  <div class="control-group">
+							<label class="control-label">Password</label>
+							<div class="controls">
+								<input id="signup-pwd" type="password" value="">
+							</div>
+						  </div>
+						  <div class="control-group">
+							<label class="control-label">First Name</label>
+							<div class="controls">
+								<input id="signup-fname" type="text" value="">
+							</div>
+						  </div>
+						  <div class="control-group">
+							<label class="control-label">Last Name</label>
+							<div class="controls">
+								<input id="signup-lname" type="text" value="">
+							</div>
+						  </div>	  	  
+						  <div class="form-actions" style="padding:7px 0;text-align:center;">
+							<button type="submit" class="btn btn-primary" id="signup-submit">Sign Up</button>
+							<button class="btn">Cancel</button>
+						  </div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<div class="span1" style="margin-top:150px;">OR</div>
+			<div class="span4" style="margin-top:150px;">
+				<div id="fb-signin-wrapper"><a href="https://www.facebook.com/dialog/oauth?client_id='+FB_APP_ID+'&redirect_uri='+window.location+'&scope=email,user_checkins&response_type=token"><img src="/assets/f_logo.png">Facebook Sign in</a></div>
+			</div>
+		</div>
+	</div>
+</div>		

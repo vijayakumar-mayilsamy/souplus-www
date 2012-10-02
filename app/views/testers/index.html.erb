@@ -1,0 +1,18 @@
+<table id="testers-index">
+	<tr>
+		<th> Name </th>
+		<th> Email </th>
+		<th> Location </th>
+		<th> UDID </th>
+	</tr>
+	<% @testers.each do |t|%>
+		<tr>
+			<td> <%= t.name%></td>
+			<td> <%= t.email%></td>
+			<td> <%= t.location%></td>
+			<td> <%= t.udid%></td>
+		</td>
+	<% end %>
+</table>
+
+<%= "We have #{@testers.count} testers!"%>

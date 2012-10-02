@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.5687065:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%d86e063b41a42c62ab2369579059b9cfI"logical_path;
+FI"we_are_hiring.png;
+FI"pathname;
+FI".$root/app/assets/images/we_are_hiring.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-08-28T01:21:58+05:30;
+FI"length;
+FI"	9596;
+FI"digest;
+F"%a131561b4ee2650903b079b96ce2fb5cI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

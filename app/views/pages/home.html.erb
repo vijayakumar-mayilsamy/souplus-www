@@ -1,0 +1,63 @@
+	
+<% content_for :head do%>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			//$('#home-message').hide().delay(200).slideDown();
+			// $('<img src="/assets/we_are_hiring.png" id="we-are-hiring">').hide().appendTo('#career').delay(1000).fadeIn();
+			//$('#topnav').remove();
+		})
+	</script>
+
+<% end %>
+<style type="text/css">
+#topnav{
+	display:none;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#topnav li').removeClass('active');
+});
+</script>
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="span8">
+				<div id="map_canvas"></div>
+			</div>
+			<div class="span4">
+				<div class="well" style="margin:5px 0;">
+				   <div id="home-message">
+						<p>Do you like driving to work?</p>
+						<p>Is getting stuck in traffic fun?</p>
+						<p>Is burning gas rewarding?</p>
+						<br />
+						<p>Souplus will change your daily commute to a fun game</p>
+						<br />
+						<p>The more you drive, the more you win</p>
+						<br />
+						<p>Want to try it out before everyone else?</p>
+					</div>
+					<div style="text-align:center;">
+						<a class="btn btn-primary" id="sign-up-for-testing" href="/testing/signup"> Sign Up for Testing</a>
+					</div>
+				</div>
+			</div>
+		</div>			
+	</div>
+</div>
+<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyDpEOT0zSRAVkuEeweQ7tgR3eAqapttg3M" type="text/javascript"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false"></script>
+<script type="text/javascript">
+var directionRefresh = null,
+	filterC = 0,
+	filters = ['today','week','all'];
+function refreshDirections(){
+	directionRefresh = clearInterval(directionRefresh);
+	game.getDirections(filters[filterC]);
+	filterC = (filterC == 2)?0:parseInt(filterC) + 1;
+	directionRefresh = setInterval("refreshDirections();",10000);
+}
+refreshDirections();
+</script>
+

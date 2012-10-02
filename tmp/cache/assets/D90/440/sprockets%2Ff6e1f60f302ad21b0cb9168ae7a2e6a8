@@ -1,0 +1,50 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1349161644.2473047:@value{	I"length:EFirI"digest;
+F"%42535092765c1c69014cfb4c5090ce4eI"source;
+FI"r.container-fluid{
+height: 100%;
+margin: 0 auto;
+width: 990px;  
+}	
+#home-logo img{
+margin:20px 0;
+width:500px;	
+}	 
+.game_table{
+  width:100%;
+} 
+.game_table th{
+  text-align:left;
+  background:#ccc;
+}
+.game_table th,.game_table td{
+ padding:3px 5px;		
+}	
+.game_table_oddrows td{
+  background:#fff;
+  
+}
+.game_table_evenrows td{
+ background:#eee;	
+} 	  
+.tab-pane span{
+  color:gray;
+}
+#map_canvas{
+  position:static;
+  float:left;
+  width:100%;
+  height:500px;
+}
+.container{
+	position:relative;
+	top:75px;
+}
+.round{
+	border-radius: 10px; 
+	-moz-border-radius: 10px; 
+	-webkit-border-radius: 10px; 
+	border: 1px solid #ccc;
+}
+;
+FI"_version;
+F"%6c827d2c6d946dc1d55beb8a7b8f25d8

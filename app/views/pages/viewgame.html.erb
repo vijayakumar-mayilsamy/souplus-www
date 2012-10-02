@@ -1,0 +1,41 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#topnav li').removeClass('active');
+});
+</script>
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12" id="game_title"></div>
+		<div class="span12">
+			<div class="span5">
+				<div class="span12" id="game_meta">
+					<!-- Dynamic Content will get added here -->
+				</div>
+			</div>
+			<div class="span2">&nbsp;</div>
+			<div class="span5" style="font-size:20px;line-height:25px;margin-top:30px;">
+				<p>Finish Date 10/31</p>
+				<p>If Obama wins, Souplus Inc. will donate</p>
+				<p style="color:#B94A48;font-weight:bold;">$5,380,840 </p>
+				<p>to asdfdsafasd Super Pac</p>
+			</div>
+		</div>
+		<div class="span12" style="margin-left:0;">
+			<div class="span5" style="margin-top:120px;">
+				<div class="span12" id="game_mileages">
+					<!-- Dynamic Content of Game Mileage -->		
+				</div>
+			</div>
+			<div class="span2">&nbsp;</div>
+			<div class="span5" style="font-size:20px;line-height:25px;margin-top:120px;" id="game_cta">
+				<p>Turn your commute to <br /> support for your <br /> candidate</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	game.viewGame(window.location.href.split('?game_id=')[1]);
+});	
+</script>

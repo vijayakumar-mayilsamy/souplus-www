@@ -1,0 +1,107 @@
+<% content_for :head do%>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){			
+			$('#topnav li').removeClass('active');
+			showNthTutorialStep($('#tutorial-wrapper'), 0);			
+			// $('form').fadeIn();
+		})
+		
+		function showNthTutorialStep(root, n){
+			$('.tutorial-step').hide();
+			$(root).empty();
+			var N = $('.tutorial-step').length;
+			if (n>0){
+				var previous = $('<a class="tutorial-nav-button" href="#">Previous</a>').hide().appendTo(root).fadeIn();
+				$(previous).click(function(e){
+					e.preventDefault();
+					showNthTutorialStep($('#tutorial-wrapper'), n-1)
+				})
+			}			
+			var step = $('.tutorial-step:eq('+n+')').clone().removeClass('tutorial-step').addClass('tutorial-current-step').appendTo(root).fadeIn();
+			if (n<N-1){
+				var next = $('<a class="tutorial-nav-button" href="#">Next</a>').hide().appendTo(root).fadeIn();	
+				$(next).click(function(e){
+					e.preventDefault();
+					showNthTutorialStep($('#tutorial-wrapper'), n+1)
+				})	
+			}else{
+				$('form').fadeIn();
+			}			
+		};
+	</script>
+<% end %>
+
+<div id="testing-wrapper">
+	<div id="testing-title">
+		Sign Up for Testing
+	</div>
+	<div id="testing-subtitle">
+		Step 1: Getting the UDID of your iPhone
+	</div>
+	<div id="testing-subsubtitle">
+		Before a developer can send you an app for testing, they must register your device with Apple under their app-testing program.
+	</div>
+	
+	<div id="tutorial-wrapper"></div>
+
+	
+	<form id="testing-step1-form" action="/testing/step2" style="display:none">
+		<span class="label-prepopulate">
+			<label> Put Your iPhone's UDID Here </label>
+			<input type="text" name="udid" id="testing-step1-form-udid" size="40">
+		</span>
+		<input type="submit" id="testing-step1-form-submit">
+	</form>
+	<div id="source">Paraphrased from <a href="https://developer.apple.com/library/ios/#documentation/Xcode/Conceptual/ios_development_workflow/35-Distributing_Applications/distributing_applications.html#//apple_ref/doc/uid/TP40007959-CH10-SW2" target="_blank"> the official Apple documentation </a></div>
+</div>
+
+
+
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			Launch iTunes.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step1.png'%>
+		</div>
+	</div>
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			Connect your device to your computer.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step2.png'%>
+		</div>
+	</div>
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			Select the device in the Devices list.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step3.png'%>
+		</div>
+	</div>
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			In the Summary pane, click the Serial Number label.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step4.png'%>
+		</div>
+	</div>
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			Here is your UDID.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step5.png'%>
+		</div>
+	</div>
+	<div class="tutorial-step">
+		<div class="tutorial-step-title">
+			Choose Edit > Copy.
+		</div>
+		<div class="tutorial-step-image">
+			<%= image_tag 'getting_udid/Step6.png'%>
+		</div>
+	</div>

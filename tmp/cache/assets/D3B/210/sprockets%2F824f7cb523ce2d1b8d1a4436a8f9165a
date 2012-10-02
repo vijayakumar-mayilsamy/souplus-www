@@ -1,0 +1,18 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723272.136914:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%2e3cb9b7a89c7e955a5118de10cf0571I"logical_path;
+FI"entypo-webfont.woff;
+FI"pathname;
+FI"5$root/app/assets/stylesheets/entypo-webfont.woff;
+FI"content_type;
+FI"application/octet-stream;
+FI"
+mtime;
+FI"2012-09-02T02:11:50+05:30;
+FI"length;
+FI"
+18772;
+FI"digest;
+F"%082b682ea1c01746766f8a02bfdc1e3fI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.55548:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%4b290f120a2354c816e6bd3dc2a39c25I"logical_path;
+FI"testing/game2_2.jpg;
+FI"pathname;
+FI"0$root/app/assets/images/testing/game2_2.jpg;
+FI"content_type;
+FI"image/jpeg;
+FI"
+mtime;
+FI"2012-09-05T22:58:02+05:30;
+FI"length;
+FI"	1434;
+FI"digest;
+F"%5573f8b6d89aa696095da3970c0ae1beI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

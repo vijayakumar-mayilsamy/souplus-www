@@ -1,0 +1,18 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.49652:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%7bce3cb587490eee8a65fde312bbdab5I"logical_path;
+FI"icon_souplus_v9_w_beta.png;
+FI"pathname;
+FI"7$root/app/assets/images/icon_souplus_v9_w_beta.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-08-31T23:09:46+05:30;
+FI"length;
+FI"
+66523;
+FI"digest;
+F"%8e3db1cf8c103f1e499fb2e7c7d5265fI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.4429452:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%f882cfd249eb42448550a586defe8ea3I"logical_path;
+FI"getting_udid/Step1.png;
+FI"pathname;
+FI"3$root/app/assets/images/getting_udid/Step1.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-08-28T01:21:58+05:30;
+FI"length;
+FI"200431;
+FI"digest;
+F"%c73ef541373051d3b62f2228ee739c86I"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

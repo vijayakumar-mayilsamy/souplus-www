@@ -1,0 +1,443 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.9226396:@value{I"
+class:EFI"BundledAsset;
+FI"id;
+F"%7797bf0aaa78bd8e161c689aa16a7645I"logical_path;
+FI"application.js;
+FI"pathname;
+FI"0$root/app/assets/javascripts/application.js;
+FI"content_type;
+FI"application/javascript;
+FI"
+mtime;
+FI"2012-09-27T10:41:46+05:30;
+FI"	body;
+FI"#
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+
+//var API_DOMAIN = 'http://dashboard.souplus.com/api'
+
+var GOOGLE_API_KEY = 'AIzaSyBmS6_GBK6Wlf9oZIAFls1CbnkYfxRrg7E';
+//var API_DOMAIN = 'http://dashboard.souplus.com/api';
+var API_DOMAIN = 'http://engine.souplus.com';
+// var FB_APP_ID = '341522109266875';
+var FB_APP_ID = '408860775839574';
+
+function enableContactForm(){	
+	$('#contact').click(function(e){
+		e.preventDefault();
+		var wrapper = $('<div id="feedback-wrapper"></div>').hide().appendTo('#footer-wrapper').fadeIn();
+		$('<h1></h1>').html('We love to hear from you!').appendTo(wrapper);
+		var form = $('<div id="feedback-form"></div>').appendTo(wrapper);
+		var email = $('<div class="form-field"></div>').appendTo(form);
+		var email_label = $('<label></label>').html('Your email').appendTo(email);
+		var email_input = $('<input type="text" size="40">').appendTo(form);
+		var message = $('<div class="form-field"></div>').appendTo(form);
+		var message_label = $('<label></label>').html('Message').appendTo(message);
+		var message_input = $('<textarea type="text" cols="37" rows="7">').appendTo(form);
+		var actions = $('<div class="form-actions"></div>').appendTo(form);
+		var submit = $('<a class="form-actions-submit" id="feedback-submit-button" href="#"></a>').html('Send').appendTo(actions);
+		$(submit).click(function(e){
+			e.preventDefault();
+			$.ajax({
+				url: API_DOMAIN+'/feedback.json?email='+escape($(email_input).val())+'&message='+escape($(message_input).val()),
+				beforeSend: function(){
+					$(form).html('loading...');
+				},
+				success: function(obj){
+					$(form).empty();
+					if (obj.status=='success'){
+						$(form).html('Thank you for the message!');
+					}else{
+						$(form).html('Sorry, something went wrong on our server! You can write to support@souplus.com instead.');
+					}
+				}
+			})
+		})
+		var cancel = $('<a href="#" class="form-actions-cancel" id="feedback-cancel-button"></a>').html('Close').prependTo(wrapper);
+		$(cancel).click(function(e){
+			e.preventDefault();
+			$(wrapper).fadeOut(function(){
+				$(this).remove();
+			})
+		});
+		
+	})
+}
+
+
+var userBar = {	
+	refresh: function(score_update, appetite_update){
+		//scoreBoard.refresh(score_update, appetite_update);
+		var userBar = this;
+		//alert(2);
+		var token = $.cookie('token');
+		//alert(token);
+		if (token!=null){
+			$.ajax({
+				url: API_DOMAIN+'/api/users/profile.json?token='+token,
+				dataType: 'json',
+				beforeSend: function(){
+					$('#user-bar').empty().fadeIn().loading();
+				},
+				success: function(data){
+					$('#user-bar').empty().unloading();	
+					//alert(data.status);			
+					if (data.status=='success'){									
+						var username = $('<a href="#" id="username-link"></a>').html(data.user_api.name);
+						$('<li></li>').append(username).appendTo('#user-bar');
+
+						$(username).click(function(e){
+							e.preventDefault();
+							if ($('#user-nav').length>0){
+								$('#user-nav').slideUp('normal', function(){ $(this).remove();});
+							}else{
+								showUserNav(data.user_api.username);
+							}
+
+						});
+					}else{
+						if (data.status=='fail'){
+							alert('Did you sign in somewhere else?');
+						}else{
+							alert('Oops, this is embarrassing. We will work on this error asap!');
+						}						
+						userBar.refresh(false, false);
+						$.cookie('token',null, {path:'/'});
+						// $('<li></li>').html('Did you sign in somewhere else?').appendTo('#user-bar');
+					}
+				}
+			})
+
+		}else{
+
+			$('#user-bar').empty();
+			var signin = $('<a id="signin-link" class="btn btn-primary" onclick="$(&quot;#signin-modal&quot;).modal(&quot;show&quot;);"> Sign In </a>');
+			$('<li> </li>').append(signin).appendTo('#user-bar');
+			var signup = $('<a href="/signup/to-be-verified" id="signup-link"  class="btn btn-primary"> Sign Up </a>');
+			$('<li> </li>').append(signup).appendTo('#user-bar');
+			
+			$(signin).click(function(e){
+				e.preventDefault();
+				if ($('#signin-modal').length>0){
+					$('#signin-modal').slideUp('normal', function(){ $(this).remove();});
+					
+				}else{
+					showSigninForm();
+				}
+			})					
+		}		
+	}
+}
+
+function showUserNav(username){
+	var root = $('<ul id="user-nav"></ul>');
+	$('<li></li>').html('<a href="/@'+username+'">Profile</a>').appendTo(root);
+	var signout = $('<a href="" id="signout-link">Sign Out</a>');
+	$(signout).click(function(e){
+		e.preventDefault();
+		$.cookie('token',null, { path: '/' });
+		/*/api/users/logout.json?token=token*/
+		userBar.refresh(false, false);
+		$(root).slideUp();
+		if ($('#dishes-wrapper').length>0){
+			unlockWrapper.refresh();
+			dishesWrapper.refresh();											
+		}		
+	})
+	$('<li></li>').append(signout).appendTo(root);
+	
+	$(root).hide().appendTo('#header-score').slideDown();
+
+}
+
+function showSigninForm(){
+	var root = $('<div id="signin-modal" class="modal well"><form class="form-horizontal"><fieldset><legend>Login</legend><div class="control-group"><label class="control-label" for="focusedInput">Email</label><div class="controls"><input class="focused" id="souplus_email" type="text" value=""></div></div><div class="control-group"><label class="control-label">Password</label><div class="controls"><input id="souplus_pwd" type="text" value=""></div></div><div style="padding:5px;text-align:center;"><button type="submit" id="signin-submit" style="margin:2px;">Sign in</button><button type="submit" id="signin-cancel" style="margin:2px;">Cancel</button></div></fieldset></form></div>');
+	$('body').append(root);
+	
+	$('#signin-modal').css('display','').show();
+	$('#souplus_pwd').keypress(function(e){
+		if(e.keyCode==13){
+			submitSigninForm();
+		}
+	})
+	$('#signin-submit').click(function(e){
+		e.preventDefault();
+		submitSigninForm();
+	})
+	
+	function submitSigninForm(){
+		var email_val = $('#souplus_email').val();
+		var password_val = $('#souplus_pwd').val();
+		$.ajax({
+			url: API_DOMAIN + '/api/users/login.json?email='+email_val+'&password='+password_val,
+			dataType: 'json',
+			beforeSend: function(){
+				$(root).loading();
+			},
+			success: function(data){
+				//alert(data);
+				$(root).unloading();
+				if (data.status=='success'){
+					$(root).slideUp();
+					$.cookie('token',data.token, {expires: 7, path: '/'});
+					userBar.refresh(false, false);
+					if ($('#dishes-wrapper').length>0){
+						unlockWrapper.refresh();
+						dishesWrapper.refresh();											
+					}
+				}else{
+					$(root).html('Wrong email or password');
+				}
+				
+			}
+		})
+	}
+	
+	$('#signin-cancel').click(function(e){
+		e.preventDefault();
+		$(root).slideUp();
+	})
+	$('<div class="or-wrapper">or</div><div id="fb-signin-wrapper"><a href="https://www.facebook.com/dialog/oauth?client_id='+FB_APP_ID+'&redirect_uri='+window.location+'&scope=email,user_checkins&response_type=token"><img src="/assets/f_logo.png" />Facebook Sign in</a></div>').appendTo(root);
+}
+
+jQuery.fn.loading = function(){
+	var root = this;
+	$(root).html('Loading...').addClass('loading');
+}
+
+jQuery.fn.unloading = function(){
+	var root = this;
+	$(root).removeClass('loading');
+}
+
+
+function errorMessage(m){
+	$('<div id="message-wrapper" class="error"></div>').append($('<div id="message"></div>').html(m)).hide().prependTo($('#content')).slideDown();
+}
+
+function resetMessage(){
+	$('.invalid-input').removeClass('invalid-input');
+	$('#message-wrapper').remove();
+}
+
+$(document).ready(function(){
+	userBar.refresh(false, false);	
+	//enableFeedbackForm();
+});
+;
+FI"asset_paths;
+F[I"f/home/viji/.rvm/gems/ruby-1.9.3-p194/gems/jquery-rails-1.0.19/vendor/assets/javascripts/jquery.js;
+FI"j/home/viji/.rvm/gems/ruby-1.9.3-p194/gems/jquery-rails-1.0.19/vendor/assets/javascripts/jquery_ujs.js;
+FI"4$root/app/assets/javascripts/bootstrap-alert.js;
+FI"5$root/app/assets/javascripts/bootstrap-button.js;
+FI"7$root/app/assets/javascripts/bootstrap-carousel.js;
+FI"7$root/app/assets/javascripts/bootstrap-collapse.js;
+FI"7$root/app/assets/javascripts/bootstrap-dropdown.js;
+FI"4$root/app/assets/javascripts/bootstrap-modal.js;
+FI"8$root/app/assets/javascripts/bootstrap-scrollspy.js;
+FI"2$root/app/assets/javascripts/bootstrap-tab.js;
+FI"6$root/app/assets/javascripts/bootstrap-tooltip.js;
+FI"9$root/app/assets/javascripts/bootstrap-transition.js;
+FI"8$root/app/assets/javascripts/bootstrap-typeahead.js;
+FI".$root/app/assets/javascripts/bootstrap.js;
+FI"2$root/app/assets/javascripts/bootstrap.min.js;
+FI")$root/app/assets/javascripts/game.js;
+FI"1$root/app/assets/javascripts/geo_position.js;
+FI"<$root/app/assets/javascripts/jquery-ui-1.8.20.custom.js;
+FI"=$root/app/assets/javascripts/jquery.animate-color-min.js;
+FI"2$root/app/assets/javascripts/jquery.cookie.js;
+FI"/$root/app/assets/javascripts/jquery.min.js;
+FI"3$root/app/assets/javascripts/jquery.ui.core.js;
+FI"7$root/app/assets/javascripts/jquery.ui.position.js;
+FI"1$root/app/assets/javascripts/pages.js.coffee;
+FI"4$root/app/assets/javascripts/sessions.js.coffee;
+FI"0$root/app/assets/javascripts/application.js;
+FI"dependency_paths;
+F[ {I"	path;
+FI"0$root/app/assets/javascripts/application.js;
+FI"
+mtime;
+FIu:	Timee#€Ü/ä.
+:@_zoneI"IST;
+T:nano_numiÓ:nano_deni:submicro"—:offsetiXMI"hexdigest;
+F"%476d0a50942f225ddab3d1d7c973b1f1{I"	path;
+FI"!$root/app/assets/javascripts;
+FI"
+mtime;
+FIu;e#€}¼ä.
+;I"IST;
+T;i,;i;";iXMI"hexdigest;
+F"%1e01d4da59acd451ac96412d9f3cb635{I"	path;
+FI"f/home/viji/.rvm/gems/ruby-1.9.3-p194/gems/jquery-rails-1.0.19/vendor/assets/javascripts/jquery.js;
+FI"
+mtime;
+FIu;s€*bæ
+;I"IST;
+T;ió;i;"uP;iXMI"hexdigest;
+F"%d13e81dda8debf24ba7d4b73d2c7b325{I"	path;
+FI"j/home/viji/.rvm/gems/ruby-1.9.3-p194/gems/jquery-rails-1.0.19/vendor/assets/javascripts/jquery_ujs.js;
+FI"
+mtime;
+FIu;s€*bæ
+;I"IST;
+T;ió;i;"uP;iXMI"hexdigest;
+F"%28dc1785f8d56ea0de4c0728f358d811{I"	path;
+FI"4$root/app/assets/javascripts/bootstrap-alert.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%cbea4af30bc23c31234d052cdedf6cb7{I"	path;
+FI"5$root/app/assets/javascripts/bootstrap-button.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%4ed75d28fdbdde13d071565f37c17f31{I"	path;
+FI"7$root/app/assets/javascripts/bootstrap-carousel.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%379f6ca64133e7c3d424332a6607520d{I"	path;
+FI"7$root/app/assets/javascripts/bootstrap-collapse.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%0d2027f46dd2ec77f9153a0a58a8c158{I"	path;
+FI"7$root/app/assets/javascripts/bootstrap-dropdown.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%5b6c5cef26e31be942dedcc3d714146a{I"	path;
+FI"4$root/app/assets/javascripts/bootstrap-modal.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%4034ef4db7aac4154a7dae59a5d3c36f{I"	path;
+FI"8$root/app/assets/javascripts/bootstrap-scrollspy.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%51b41c07326d8fbc017d5dbbe38be5f6{I"	path;
+FI"2$root/app/assets/javascripts/bootstrap-tab.js;
+FI"
+mtime;
+FIu;u€üÒÍ
+;I"IST;
+T;i;i;"p;iXMI"hexdigest;
+F"%f5a95454e0b060a008b303bc4186a603{I"	path;
+FI"6$root/app/assets/javascripts/bootstrap-tooltip.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%07f12a4ce80a4633b8640608b165f1a1{I"	path;
+FI"9$root/app/assets/javascripts/bootstrap-transition.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%c04a21a3d023e97a2fd1ffaf52aabc41{I"	path;
+FI"8$root/app/assets/javascripts/bootstrap-typeahead.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%dd6605bb5a8b58b188167e6bc2a62034{I"	path;
+FI".$root/app/assets/javascripts/bootstrap.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%96d5ac506b42f04d82490187ed38cc62{I"	path;
+FI"2$root/app/assets/javascripts/bootstrap.min.js;
+FI"
+mtime;
+FIu;s€Æ­¥Ï
+;I"IST;
+T;i ;i;"’€;iXMI"hexdigest;
+F"%2cbc1f07272002aa3852110e618fe1cd{I"	path;
+FI")$root/app/assets/javascripts/game.js;
+FI"
+mtime;
+FIu;&#€(ô©D
+;I"IST;
+T;i*;i;";iXMI"hexdigest;
+F"%63e5b13a23bee72867cea14948b6846f{I"	path;
+FI"1$root/app/assets/javascripts/geo_position.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%5afc278954ffaafc0f86db00a1dc63d4{I"	path;
+FI"<$root/app/assets/javascripts/jquery-ui-1.8.20.custom.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%db79db7dcbf09e1f1c0d21e8f05c00e1{I"	path;
+FI"=$root/app/assets/javascripts/jquery.animate-color-min.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%03cb4a31b30e530e9db93609e8557daa{I"	path;
+FI"2$root/app/assets/javascripts/jquery.cookie.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%454cdc7bd2a6d1308a6f69fa800fce68{I"	path;
+FI"/$root/app/assets/javascripts/jquery.min.js;
+FI"
+mtime;
+FIu;u€|º¡â
+;I"IST;
+T;i;i;"y;iXMI"hexdigest;
+F"%0a492a8d8076db8a84ce76eca653f4d0{I"	path;
+FI"3$root/app/assets/javascripts/jquery.ui.core.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%44810fda0c96da987db5b60dd0c7feda{I"	path;
+FI"7$root/app/assets/javascripts/jquery.ui.position.js;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%504a4d55ea8c9ec2d58ced938b0aca18{I"	path;
+FI"1$root/app/assets/javascripts/pages.js.coffee;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%f50e3d51579225e3370988d160060f33{I"	path;
+FI"4$root/app/assets/javascripts/sessions.js.coffee;
+FI"
+mtime;
+FIu;4 €   §;I"IST;
+T;iXMI"hexdigest;
+F"%f50e3d51579225e3370988d160060f33I"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

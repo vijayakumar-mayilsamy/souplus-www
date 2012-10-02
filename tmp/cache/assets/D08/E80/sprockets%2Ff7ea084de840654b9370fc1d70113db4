@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1348723271.5449712:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%2b8a4bb8d5df220434933cefe879c497I"logical_path;
+FI"testing/fea_i2.jpg;
+FI"pathname;
+FI"/$root/app/assets/images/testing/fea_i2.jpg;
+FI"content_type;
+FI"image/jpeg;
+FI"
+mtime;
+FI"2012-09-05T22:51:36+05:30;
+FI"length;
+FI"	3354;
+FI"digest;
+F"%8ed0ef2301fef851d4e8c336625cc6a9I"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

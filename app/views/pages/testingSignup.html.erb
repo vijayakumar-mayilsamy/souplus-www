@@ -1,0 +1,136 @@
+<% content_for :head do%>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$('#topnav li').removeClass('active');
+			$('#testing-signup-submit').click(function(e){
+				e.preventDefault();
+				resetMessage();
+				validatesForm();
+			})	
+			
+			$('#testing-signup-form>*').keypress(function(e){
+				if (e.keyCode==13){
+					resetMessage();
+					validatesForm();					
+				}
+			})
+		})
+		
+		function validatesForm(){
+			$('.invalid-input').removeClass('invalid-input');
+			var value = $('#testing-signup-email').val();
+			var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; //^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+			if ($('#testing-signup-name').val().length==0){
+				errorMessage("Please let us know who you are :)");
+				$('#testing-signup-name').addClass('invalid-input');
+			}else{
+				if ($('#testing-signup-location').val().length==0){
+					errorMessage("Please let us know which city you live in.");
+					$('#testing-signup-location').addClass('invalid-input');					
+				}else{
+					if (!emailReg.test(value)){
+						errorMessage("Are you sure this is your email?");
+						$('#testing-signup-email').addClass('invalid-input');
+						return false;
+					}
+					else{
+						var selector = $('#testing-signup-email');
+						var url = '/api/testers/email_exists.json';
+						$.ajax({
+							dataType: "json",
+							url: url+'?email='+value,
+							async: false,
+							beforeSend: function(){
+								$(selector).addClass('progress');
+							},
+							error: function(){
+								$(selector).addClass('invalid-input');
+								errorMessage("Sorry. Something goes wrong on our server. Please try again");
+								return false;
+								// $(selector).populateInputHint("Oops, ajax request failed, please try again", -1);
+							},
+							success: function(json){
+								$(selector).removeClass('progress');					
+								if (json.available == false){
+									$(selector).addClass('invalid-input');
+									errorMessage("This email has been registered already!");
+									return false;
+								}else{
+									if ($('#testing-signup-email-confirmation').val() != $('#testing-signup-email').val()){
+										errorMessage('inconsistent email');
+										$('#testing-signup-email-confirmation').addClass('invalid-input');
+										return false;
+									}else{
+										submitForm();
+									}							
+								}
+							},
+							// complete: function(){
+							// }
+						});
+					}
+				}
+			}
+
+		}
+		
+		function submitForm(){
+			var url = '/api/testers/create.json?location='+$('#testing-signup-location').val()+'&name='+$('#testing-signup-name').val()+'&email='+$('#testing-signup-email').val();
+			$.ajax({
+				url: url,
+				beforeSend: function(){
+					$('#testing-signup-form').html('loading...');
+				},
+				success: function(data){
+					$('#testing-signup-form').html(data.message);
+				}
+			})
+		}
+		
+		function errorMessage(m){
+			$('<div id="message-wrapper" class="error"></div>').append($('<div id="message"></div>').html(m)).hide().appendTo($('#wrapper')).slideDown();
+		}
+		
+		function resetMessage(){
+			$('#message-wrapper').remove();
+		}
+		
+	</script>
+<% end %>
+
+<div id="testing-wrapper">
+	<div id="testing-title">
+		Sign Up for Testing
+	</div>
+	<div id="testing-subtitle">
+		Get excited!
+	</div>
+	<div id="testing-subsubtitle">
+		We'd like to invite you to join our alpha testing group and help us make the best game for you! Please make sure you have the correct email for us to send you an invitation when we are ready :)
+	</div>
+
+	
+	<div id="testing-signup-form">
+		<div class="form-section">
+			<label>Name</label>
+			<input type="text" name="name" id="testing-signup-name">
+		</div>
+		<div class="form-section">
+			<label>Which city do you live in?</label>
+			<input type="text" name="location" id="testing-signup-location">
+		</div>		
+		<div class="form-section">
+			<label>Email</label>
+			<input type="text" name="email" id="testing-signup-email" size="30">
+		</div>
+		<div class="form-section">
+			<label>Please type the same email again</label>
+			<input type="text" name="email-confirmation" id="testing-signup-email-confirmation" size="30">
+		</div>
+		<div class="form-section" style="text-align:center;">		
+			<a href="#" id="testing-signup-submit" class="btn btn-primary"> Submit </a>
+		</div>
+	</div>
+</div>
+
+

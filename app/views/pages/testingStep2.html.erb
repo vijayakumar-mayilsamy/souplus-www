@@ -1,0 +1,124 @@
+<% content_for :head do%>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$('#topnav li').removeClass('active');
+			$('#testing-step2-submit').click(function(e){
+				e.preventDefault();
+				resetMessage();
+				validatesEmail();
+				// if ($('.error').length>0){
+				// 	return false;
+				// }else{
+				// 	return true;
+				// }
+			})	
+		})
+		
+		function validatesEmail(){
+			$('.invalid-input').removeClass('invalid-input');
+			var value = $('#testing-step2-email').val();
+			var emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; //^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+			if (!emailReg.test(value)){
+				errorMessage("Are you sure this is your email?");
+				$('#testing-step2-email').addClass('invalid-input');
+				return false;
+			}
+			else{				
+				var selector = $('#testing-step2-email');
+				var url = '/api/testers/email_exists.json';
+				$.ajax({
+					dataType: "json",
+					url: url+'?email='+value,
+					async: false,
+					beforeSend: function(){
+						$(selector).addClass('progress');
+					},
+					error: function(){
+						$(selector).addClass('invalid-input');
+						errorMessage("Sorry. Something goes wrong on our server. Please try again");
+						return false;
+						// $(selector).populateInputHint("Oops, ajax request failed, please try again", -1);
+					},
+					success: function(json){
+						$(selector).removeClass('progress');					
+						if (json.available == false){
+							$(selector).addClass('invalid-input');
+							errorMessage("This email has been registered already!");
+							return false;
+						}else{
+							if ($('#testing-step2-email-confirmation').val() != $('#testing-step2-email').val()){
+								errorMessage('inconsistent email');
+								$('#testing-step2-email-confirmation').addClass('invalid-input');
+								return false;
+							}else{
+								submitForm();
+							}							
+						}
+					},
+					// complete: function(){
+					// }
+				});
+			}
+		}
+		
+		function submitForm(){
+			var url = '/testing/step3.json?udid='+$('#testing-step2-udid').val()+'&name='+$('#testing-step2-name').val()+'&email='+$('#testing-step2-email').val();
+			$.ajax({
+				url: url,
+				beforeSend: function(){
+					$('#testing-step2-form').html('loading...');
+				},
+				success: function(data){
+					$('#testing-step2-form').html(data.message);
+				}
+			})
+		}
+		
+		function errorMessage(m){
+			$('<div id="message-wrapper" class="error"></div>').append($('<div id="message"></div>').html(m)).hide().appendTo($('#wrapper')).slideDown();
+		}
+		
+		function resetMessage(){
+			$('#message-wrapper').remove();
+		}
+		
+	</script>
+<% end %>
+
+<div id="testing-wrapper">
+	<div id="testing-title">
+		Sign Up for Testing
+	</div>
+	<div id="testing-subtitle">
+		Step 2: Please Introduce Yourself
+	</div>
+	<div id="testing-subsubtitle">
+		Our iPhone App is still under development and hasn't been published to the App Store yet. We need to know your email to send you our latest version for testing.
+	</div>
+
+	
+	<div id="testing-step2-form">
+		<div class="form-section">
+			<label>UDID</label>
+			<%=@udid%>
+			<input type="hidden" name="udid" value="<%=@udid%>" id="testing-step2-udid">
+		</div>
+		<div class="form-section">
+			<label>Name</label>
+			<input type="text" name="name" id="testing-step2-name">
+		</div>
+		<div class="form-section">
+			<label>Email</label>
+			<input type="text" name="email" id="testing-step2-email" size="30">
+		</div>
+		<div class="form-section">
+			<label>Please type the same email again</label>
+			<input type="text" name="email-confirmation" id="testing-step2-email-confirmation" size="30">
+		</div>
+		<div class="form-section">		
+			<a href="#" id="testing-step2-submit"> Submit </a>
+		</div>
+	</div>
+</div>
+
+
