@@ -10,6 +10,8 @@ SouplusWww::Application.routes.draw do
   match '/forgot_password' => 'pages#forgot_password'
   match '/reset_password/:token' => 'pages#resetPassword'
   match '/wrong_signup' => 'pages#wrong_signup'
+  match '/newhome' => 'pages#newhome'
+  match '/index' => 'pages#index'
   
   match '/career' => "pages#career"
   match '/about' => 'pages#about'

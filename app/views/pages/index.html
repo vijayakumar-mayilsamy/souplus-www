@@ -1,0 +1,146 @@
+<style type="text/css">
+		#wrapper{
+			width:100%;height:10000px;
+		}
+		#header{
+			display:none;
+		}
+		.footer{
+			display:none;
+		}
+		html, body{
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;			
+		}
+		
+		#top{
+			margin-top: -15px;
+			background: url('/assets/top_stripe.png') repeat-x top right;
+			background-size: 1px 500px;
+			height: 500px;
+			width: 100%;
+		}
+		
+		#logo{
+			background: url('/assets/logo.png') no-repeat top center;
+			background-size: 500px;
+			height: 300px;
+			width: 500px;
+			margin: 0px auto;
+		}
+		
+		#center{
+			background: white;
+			height: 100px;
+			margin-top: -35px;
+		}
+		
+		#iphone{
+			background: url('/assets/iPhone.png') no-repeat top center;
+			position: relative;
+			top: -300px;
+			left: -200px;
+			background-size: 900px;
+			height: 1000px;
+		}
+		
+		#message-box{
+			background: url('/assets/message_box.png') no-repeat top center;
+			position: relative;
+			width:1000px;
+			overflow-x:hidden;
+			top: -1414px;
+			right: -200px;
+			background-size: 1385px;
+			height: 1000px;
+		}
+		#message-box h5{
+			color:red;
+			position: relative;
+			top: 255px;
+			right: -500px;
+			font-size:1.5em;
+		}
+		#message-box p{
+			position: relative;
+			top: 260px;
+			right: -503px;
+			font-size:1.1em;
+		}
+		#white-gradient{
+			background: url('/assets/white_gradient.png') repeat-x top right;
+			background-size: 1px 400px;
+			height: 400px;
+			width: 100%;
+			position:absolute;
+			top:270px;
+			z-index:10000000000000;
+		}
+		#bottom{
+			background:#fa0;	
+			width: 100%;
+		}
+		.store-icon{
+			width:250px;
+			margin:10px 30px;	
+		}
+		
+	</style>
+	<div id="top">
+		<div id="logo">
+		</div>
+	</div>
+	<div id="center">
+		<div id="iphone"></div>
+		<div id="message-box">
+			<h5>Welcome</h5>
+			<p>Souplus will change your daily commute to a <br /> <b>fun</b> game. 
+				The more you drive, the more you <br /> win. <br /> 
+				<br />
+				Want to try it out before everyone else? 
+				<br />
+				<a href="http://analytics-engine.herokuapp.com/api/clicks/create.json?domain=promise-testing&amp;ip=122.172.190.23&amp;header=Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4&amp;email=vijay@souplus.com&amp;event=ios-app" id="app-store"><img alt="Available_on_appstore" class="store-icon" src="/assets/available_on_AppStore.jpeg" /></a>	
+			</p>
+		</div>
+	</div>
+	<div id="map_canvas"></div>	
+<!--	<div id="bottom">
+		
+	</div>-->
+	</div>
+<input type="hidden" id="start" size="30" />
+<input type="hidden" id="end" size="30" />
+<div id="white-gradient"></div>							
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBs2Xkop6sforUKYax4xfCnZAVNT-V6tt4&sensor=false"></script>
+<script type="text/javascript">
+
+var directionRefresh = null,
+	filterC = 0,
+	filters = ['today','week','all'];
+function refreshDirections(){
+	directionRefresh = clearInterval(directionRefresh);
+	game.getDirections(filters[filterC]);
+	filterC = (filterC == 2)?0:parseInt(filterC) + 1;
+	directionRefresh = setInterval("refreshDirections();",10000);
+}
+refreshDirections();
+/*
+window.onload = function () { 
+  window.onscroll = function () { 
+    var doc = document.body, 
+		scrollPosition = doc.scrollTop;
+    //pageSize = (doc.scrollHeight - doc.clientHeight),
+    //percentageScrolled = Math.floor((scrollPosition / pageSize) * 100); 
+	var default_pos = 270,
+		set_pos = default_pos - scrollPosition;
+	
+	alert(scrollPosition);	
+	//$('#white-gradient').css('top',set_pos + 'px');
+     if (percentageScrolled >= 50){ // if the percentage is >= 50, scroll to top
+       window.scrollTo(0,0); 
+     } 
+   }; 
+};*/	
+</script>

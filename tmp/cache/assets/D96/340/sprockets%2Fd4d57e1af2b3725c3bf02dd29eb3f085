@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1351665425.3809257:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%0acfad51ebfb45f001639d8edf72d221I"logical_path;
+FI"top_stripe.png;
+TI"pathname;
+FI"+$root/app/assets/images/top_stripe.png;
+FI"content_type;
+FI"image/png;
+FI"
+mtime;
+FI"2012-10-26T10:37:18+05:30;
+FI"length;
+FI"	7794;
+FI"digest;
+F"%e07b0d937ad7ec514ea32dddef736f50I"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c

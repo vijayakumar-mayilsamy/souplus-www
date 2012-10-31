@@ -1,0 +1,81 @@
+<style type="text/css">
+#header{
+	display:none;
+}
+.footer{
+	display:none;
+}
+.container{
+	top:0;
+}
+.message_box{
+	position:absolute;top:175px;width:220px;left:475px;
+}
+.message_box h5{
+	color:red;
+}
+.message_box div{
+
+}
+.home_nav{
+	list-style:none;float:left;width:100%;margin-left:250px;visibility:hidden;
+}
+.home_nav li{
+	float:left;margin:0 5px;
+}
+.home_nav li a{
+	color:red;font-weight:bold;font-size:12px;
+}
+</style>
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12" style="height:390px;">
+			<%= image_tag '/assets/top.png'%>
+			<img src='assets/iPhone.png' style="position:absolute;top:0;" />
+			<img src='assets/message_box.png' style="position:absolute;top:0;" />
+			<div class="message_box">
+				<h5>Welcome</h5>
+				<p>Souplus will change your daily commute to a fun game. The more you drive, the more you win. <br /> 
+				Want to try it out before everyone else? </p>
+				<a href="http://analytics-engine.herokuapp.com/api/clicks/create.json?domain=promise-testing&amp;ip=122.172.190.23&amp;header=Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4&amp;email=vijay@souplus.com&amp;event=ios-app" id="app-store"><img alt="Available_on_appstore" class="store-icon" src="/assets/available_on_AppStore.jpeg" /></a>
+			</div>
+			
+		</div>
+		<div class="span12" style="position:relative;margin-bottom:10px;">
+			<div class="span6">
+			<ul class="home_nav">
+				<li><a href="/about" title="About">About</a></li>
+				<li><a href="/contact" title="Contact">Contact</a></li>
+				<li><a href="/career" title="Employment">Employment</a></li>
+			</ul>
+			</div>
+			<div class="span6">
+				Follow Souplus on :  <a href="http://twitter.com/souplusinc" target="_blank" style="padding:2px 5px;"><img src="/assets/twittersmall.png" /></a><a href="http://www.facebook.com/souplus" target="_blank" style="padding:2px 5px;"><img src="/assets/facebook.png" /></a> &copy; 2012 Souplus, Inc. All Rights Reserved.
+			</div>
+		</div>
+		<!--<img src='assets/white_gradient.png' style="position:relative;" />-->
+		<div class="span12">
+			<div id="map_canvas"></div>	
+			
+		</div>			
+	</div>
+</div>
+<input type="hidden" id="start" size="30" />
+<input type="hidden" id="end" size="30" />
+					
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBs2Xkop6sforUKYax4xfCnZAVNT-V6tt4&sensor=false"></script>
+<script type="text/javascript">
+
+var directionRefresh = null,
+	filterC = 0,
+	filters = ['today','week','all'];
+function refreshDirections(){
+	directionRefresh = clearInterval(directionRefresh);
+	game.getDirections(filters[filterC]);
+	filterC = (filterC == 2)?0:parseInt(filterC) + 1;
+	directionRefresh = setInterval("refreshDirections();",10000);
+}
+refreshDirections();
+	
+</script>
+

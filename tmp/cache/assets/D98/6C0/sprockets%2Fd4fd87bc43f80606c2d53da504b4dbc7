@@ -1,0 +1,17 @@
+o: ActiveSupport::Cache::Entry	:@compressedF:@expires_in0:@created_atf1351665425.3039846:@value{I"
+class:EFI"StaticAsset;
+FI"id;
+F"%0410566d3d3339921469bef0aaa03b8aI"logical_path;
+FI"available_on_AppStore.jpeg;
+TI"pathname;
+FI"7$root/app/assets/images/available_on_AppStore.jpeg;
+FI"content_type;
+FI"image/jpeg;
+FI"
+mtime;
+FI"2012-10-25T22:59:47+05:30;
+FI"length;
+FI"	6831;
+FI"digest;
+F"%d11ea8d3151a3fc9498261d817d4108cI"_version;
+F"%0868aba5d4b750d3a9421721ea3d9b9c
